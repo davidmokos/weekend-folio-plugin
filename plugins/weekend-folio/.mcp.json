@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "weekend-folio": {
+      "type": "http",
+      "url": "https://weekendfolio.com/mcp"
+    }
+  }
+}

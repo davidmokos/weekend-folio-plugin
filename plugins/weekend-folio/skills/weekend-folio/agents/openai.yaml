@@ -1,0 +1,12 @@
+interface:
+  display_name: "Weekend Folio"
+  short_description: "Save links and look after the reading list"
+  default_prompt: "Use $weekend-folio to save these links and tell me what waits for my next issue."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "weekend-folio"
+      description: "The reader's Weekend Folio library, issues and settings"
+      transport: "streamable_http"
+      url: "https://weekendfolio.com/mcp"

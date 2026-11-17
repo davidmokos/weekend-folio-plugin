@@ -1,0 +1,58 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "weekend-folio",
+  "version": "1.0.0",
+  "description": "Save articles from any conversation and turn them into your own magazine: a PDF, a Kindle issue, or a printed copy by post.",
+  "author": {
+    "name": "Weekend Folio",
+    "email": "hello@weekendfolio.com",
+    "url": "https://weekendfolio.com"
+  },
+  "homepage": "https://weekendfolio.com",
+  "repository": "https://github.com/davidmokos/weekend-folio-plugin",
+  "license": "MIT",
+  "keywords": [
+    "weekend-folio",
+    "read-later",
+    "reading-list",
+    "bookmarks",
+    "magazine",
+    "kindle",
+    "pdf",
+    "print",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Weekend Folio",
+        "shortDescription": "Your saved links as a magazine",
+        "longDescription": "Weekend Folio turns the articles you save into your own magazine. Give the assistant links to save, ask what is on your reading list, and let it make an issue from the articles that wait. Get the issue as a PDF link, send it to your Kindle, or get a live quote for a printed copy that comes by post. A printed copy has no subscription: you pay for each one separately, at the printer's cost for printing, shipping and tax. The assistant can pay with your saved card only if you gave the connection that permission when you connected it, and only after you confirm one shipping option and its total. Without that permission, it sends you a link and you pay on the website. You need a Weekend Folio account. The plugin works only on the library of the reader who signed in.",
+        "developerName": "Weekend Folio",
+        "category": "Productivity",
+        "capabilities": [
+          "Save links",
+          "Read the reading list",
+          "Make and change issues",
+          "Send an issue as a PDF or to a Kindle",
+          "Quote and order printed copies"
+        ],
+        "websiteURL": "https://weekendfolio.com",
+        "supportURL": "https://github.com/davidmokos/weekend-folio-plugin/blob/main/SUPPORT.md",
+        "privacyPolicyURL": "https://weekendfolio.com/privacy",
+        "termsOfServiceURL": "https://weekendfolio.com/terms",
+        "defaultPrompt": [
+          "What is waiting on my Weekend Folio reading list?",
+          "Make an issue from my saved articles and send me the PDF.",
+          "How much does it cost to print my latest issue?"
+        ],
+        "brandColor": "#161614",
+        "brandColorDark": "#E9E7E1",
+        "composerIcon": "./assets/logo.png",
+        "composerIconDark": "./assets/logo-dark.png",
+        "logo": "./assets/logo.png",
+        "logoDark": "./assets/logo-dark.png"
+      }
+    }
+  }
+}

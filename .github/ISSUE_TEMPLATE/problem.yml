@@ -1,0 +1,27 @@
+name: A problem with the plugin
+description: An assistant does not load the plugin, a skill is wrong, or an install step fails.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: For your account, your library or an order, write to hello@weekendfolio.com. Do not put personal data here.
+  - type: input
+    id: assistant
+    attributes:
+      label: Assistant and version
+      placeholder: Claude Code 2.1, Codex 0.169, Cursor 3.13
+    validations:
+      required: true
+  - type: textarea
+    id: happened
+    attributes:
+      label: What happened
+      description: The steps that you did, and the result.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true

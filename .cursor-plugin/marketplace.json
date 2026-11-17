@@ -1,0 +1,18 @@
+{
+  "name": "weekend-folio",
+  "owner": {
+    "name": "Weekend Folio",
+    "email": "hello@weekendfolio.com"
+  },
+  "metadata": {
+    "description": "The Weekend Folio plugin: a connector and skills for your own magazine of saved articles.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "weekend-folio",
+      "source": "./plugins/weekend-folio",
+      "description": "Save articles from any conversation and turn them into your own magazine: a PDF, a Kindle issue, or a printed copy by post."
+    }
+  ]
+}

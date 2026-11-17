@@ -1,0 +1,10 @@
+{
+  "name": "weekend-folio",
+  "version": "1.0.0",
+  "description": "Save articles from any conversation and turn them into your own magazine: a PDF, a Kindle issue, or a printed copy by post.",
+  "mcpServers": {
+    "weekend-folio": {
+      "httpUrl": "https://weekendfolio.com/mcp"
+    }
+  }
+}

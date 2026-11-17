@@ -1,0 +1,20 @@
+{
+  "name": "weekend-folio",
+  "interface": {
+    "displayName": "Weekend Folio"
+  },
+  "plugins": [
+    {
+      "name": "weekend-folio",
+      "source": {
+        "source": "local",
+        "path": "./plugins/weekend-folio"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

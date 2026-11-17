@@ -1,0 +1,12 @@
+interface:
+  display_name: "Weekend Folio print"
+  short_description: "Quote and order a printed copy of an issue"
+  default_prompt: "Use $weekend-folio-print to tell me what a printed copy of my latest issue costs."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "weekend-folio"
+      description: "The reader's Weekend Folio library, issues and settings"
+      transport: "streamable_http"
+      url: "https://weekendfolio.com/mcp"
