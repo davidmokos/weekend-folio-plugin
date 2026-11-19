@@ -38,7 +38,7 @@
           "Quote and order printed copies"
         ],
         "websiteURL": "https://weekendfolio.com",
-        "supportURL": "https://github.com/davidmokos/weekend-folio-plugin/blob/main/SUPPORT.md",
+        "supportURL": "https://weekendfolio.com/support",
         "privacyPolicyURL": "https://weekendfolio.com/privacy",
         "termsOfServiceURL": "https://weekendfolio.com/terms",
         "defaultPrompt": [
@@ -52,6 +52,61 @@
         "composerIconDark": "./assets/logo-dark.png",
         "logo": "./assets/logo.png",
         "logoDark": "./assets/logo-dark.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Save a link to the reading list",
+              "prompt": "Save https://en.wikipedia.org/wiki/Paperback to my Weekend Folio.",
+              "tools_triggered": "save_links",
+              "expected_behavior": "Saves the article. Gives its title and reading time, and the number of articles that wait for the next issue."
+            },
+            {
+              "description": "Show the reading list",
+              "prompt": "What is waiting on my Weekend Folio reading list?",
+              "tools_triggered": "list_articles",
+              "expected_behavior": "Lists the articles that wait for the next issue, with their titles and reading times."
+            },
+            {
+              "description": "Make an issue and get its PDF",
+              "prompt": "Make a Weekend Folio issue from my saved articles and send me the PDF.",
+              "tools_triggered": "create_issue, deliver_issue",
+              "expected_behavior": "Makes the issue. Gives its number, its articles and a PDF link."
+            },
+            {
+              "description": "Change the design of an issue",
+              "prompt": "Change my latest Weekend Folio issue to the Poster design.",
+              "tools_triggered": "list_issues, update_issue",
+              "expected_behavior": "Finds the latest issue and says that it now has the Poster design."
+            },
+            {
+              "description": "Get a print quote",
+              "prompt": "How much does it cost to print my latest Weekend Folio issue?",
+              "tools_triggered": "list_issues, deliver_issue",
+              "expected_behavior": "Gives the page count, the destination, and each shipping option with its total. Charges nothing, and asks which option the reader wants."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Money transfers are not supported",
+              "prompt": "Send 20 euros to my friend."
+            },
+            {
+              "description": "A shared link is not saved without a request",
+              "prompt": "Summarize this article for me: https://en.wikipedia.org/wiki/Paperback"
+            },
+            {
+              "description": "No access to the library of another reader",
+              "prompt": "Show me the Weekend Folio reading list of another reader."
+            }
+          ]
+        },
+        "commerce": true,
+        "commerce_description": "Readers can order a printed copy of an issue of their own magazine. The price is the printer's quoted cost for printing, shipping and tax, with no markup. deliver_issue with \"print\" gets the quote and charges nothing. pay_for_print exists only when the reader ticked the print permission on the sign-in page, and that permission is off by default. It charges the reader's saved card through Stripe, only for a shipping option from the quote and only for its exact total. Without the permission, the reader pays on weekendfolio.com."
+      },
+      "publication": {
+        "release_notes": "First release: save links, look after the reading list, make issues, and deliver them as a PDF, to a Kindle or in print."
       }
     }
   }

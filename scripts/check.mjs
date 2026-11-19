@@ -123,6 +123,36 @@ if (agent && claude && cursor && gemini && registry) {
   // The MCP Registry (registry.modelcontextprotocol.io).
   check(registry.description?.length > 0 && registry.description.length <= 100, 'server.json: "description" must have 1 to 100 characters')
   check((registry.title ?? '').length <= 100, 'server.json: "title" permits a maximum of 100 characters')
+
+  // The review data for ChatGPT and Codex: an initial MCP review needs exactly
+  // five positive and three negative test cases. Credentials never go in the package.
+  const openai = agent.extensions?.['com.openai'] ?? {}
+  const review = openai.review
+  if (review) {
+    const tools = [...(read(join(root, 'README.md')) ?? '').matchAll(/^\| `([a-z_]+)` \|/gm)].map((m) => m[1])
+    const positive = review.test_cases?.positive ?? []
+    const negative = review.test_cases?.negative ?? []
+    check(positive.length === 5, `plugin.json: review.test_cases.positive must have 5 cases, not ${positive.length}`)
+    check(negative.length === 3, `plugin.json: review.test_cases.negative must have 3 cases, not ${negative.length}`)
+    for (const [i, c] of positive.entries()) {
+      for (const key of ['description', 'prompt', 'tools_triggered', 'expected_behavior']) {
+        check(typeof c[key] === 'string' && c[key].trim().length > 0, `plugin.json: positive test case ${i + 1} needs "${key}"`)
+      }
+      for (const tool of (c.tools_triggered ?? '').split(',').map((t) => t.trim()).filter(Boolean)) {
+        check(tools.includes(tool), `plugin.json: positive test case ${i + 1} names "${tool}", which is not in the tool table of README.md`)
+      }
+    }
+    for (const [i, c] of negative.entries()) {
+      for (const key of ['description', 'prompt']) {
+        check(typeof c[key] === 'string' && c[key].trim().length > 0, `plugin.json: negative test case ${i + 1} needs "${key}"`)
+      }
+    }
+    check(typeof review.commerce === 'boolean', 'plugin.json: review.commerce must be true or false')
+    check(!review.commerce || (review.commerce_description ?? '').trim().length > 0, 'plugin.json: review.commerce_description must say how payments work')
+  }
+  for (const key of ['test_credentials', 'reviewer_instructions']) {
+    check(!(key in (review ?? {})) && !(key in openai), `plugin.json: "${key}" must not be in the package. Give it in the dashboard form.`)
+  }
 }
 
 // ---------------------------------------------------------------- connector

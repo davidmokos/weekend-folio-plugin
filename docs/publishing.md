@@ -2,7 +2,7 @@
 
 This document tells a maintainer how to get Weekend Folio into each plugin directory, and what is not done yet.
 
-The facts here were checked on 17 November 2026. The directories change their rules. Read the linked page before you submit.
+The facts here were checked on 17 November 2026. The Claude rules for tool hints were checked again on 19 November 2026. The directories change their rules. Read the linked page before you submit.
 
 ## Status
 
@@ -13,22 +13,52 @@ The facts here were checked on 17 November 2026. The directories change their ru
 | [Cursor Marketplace](#cursor-and-grok-bot) | Cursor, Grok Bot | Not submitted |
 | [Grok Build marketplace](#grok-build) | Grok Build | Not submitted |
 | [MCP Registry](#mcp-registry) | The registry, and the directories that read it | Not published |
-| [Gemini CLI extensions](#gemini-cli) | Gemini CLI | Listed automatically after the repository is public |
+| [Gemini CLI extensions](#gemini-cli) | Gemini CLI | Waits for the daily crawler. The repository is public and has the topic. |
 | [skills.sh](#skillssh) | The skills CLI | No submission exists |
 
 ## Before the first submission
 
-These items are not in this repository. Each one blocks one or more directories.
+### Done
 
-1. **Make the repository public.** Each directory needs a public repository. The Claude directory permits a private repository during the review only.
-2. **A support page.** The manifests point to [SUPPORT.md](../SUPPORT.md) in this repository. OpenAI asks for an HTTPS customer support page, and says that public addresses must identify the same publisher as the submission. A page on weekendfolio.com is the safer answer. After you add one, change `supportURL` in `plugin.json` and `supportUrl` in `.claude-plugin/plugin.json`.
-3. **A test account for reviewers.** Claude and OpenAI ask for an account with example data. OpenAI wants the sign-in to work immediately: no multi-factor approval, no email or SMS code, no magic link. Give the account some saved articles, one issue, a delivery address and a test card.
-4. **A decision about payments.** The `pay_for_print` tool charges a saved card. The reader must tick the print permission when they connect, and the assistant must get a clear yes for one shipping option and its total. Without the permission the tool does not exist for that connection. Both large directories have rules for purchases:
-   - Claude: the review criteria refuse connectors that "transfer money, cryptocurrency, or other financial assets", and the policy forbids financial transactions "without human-in-the-loop safeguards". One of the compliance questions is about financial transactions.
-   - OpenAI: the manifest has a `review.commerce` declaration with a description.
+These items were done on 19 November 2026.
 
-   Decide before you submit if the listed connector keeps the print permission. If it does, describe the two safeguards above in the submission.
-5. **Tool hints.** The Claude review criteria ask for a `title` on each tool, plus `readOnlyHint: true` or `destructiveHint: true`. The connector gives each of its 13 tools a title and hints. Five tools that write data but destroy nothing have the two hints set to `false`: `save_links`, `create_issue`, `update_issue`, `deliver_issue` and `update_account`. Compare this with the criteria page before you submit.
+- **The repository is public.** Each directory needs a public repository.
+- **A support page:** <https://weekendfolio.com/support>. It names the publisher, DCTR s.r.o., as the privacy policy and the terms do. `supportURL` in `plugin.json` and `supportUrl` in `.claude-plugin/plugin.json` point to it.
+- **The privacy policy and the terms describe connected assistants**, in their sections "Assistants you connect": what the connector sends to an assistant, what it keeps, and the confirmation before a payment.
+- **Tool hints.** The Claude directory asks for a `title` on each tool, `readOnlyHint: true` on each tool that only reads, and `destructiveHint: true` on each tool that changes data. The connector does this for its 13 tools. Claude then asks the reader before each call that changes data.
+- **Saving links.** The connector tells the assistant to save a link only when the reader asks. The Claude directory refuses instructions that make the assistant call tools that the user did not request.
+- **Payments.** The listed connector keeps the print permission. See [Payments](#payments) for the safeguards and the text for the forms.
+- **Domain proofs.** weekendfolio.com serves `/.well-known/mcp-registry-auth` now, and serves `/.well-known/openai-apps-challenge` when the token is set. See [ChatGPT and Codex](#chatgpt-and-codex).
+- **The firewall.** weekendfolio.com has no IP rules and no custom firewall rules. Bot Fight Mode and the blocking of AI bots are off. The Cloudflare security level is "medium", and Browser Integrity Check is on. No rule refers to `160.79.104.0/21`.
+
+### Left for a person
+
+1. **A test account for reviewers.** Claude and OpenAI ask for an account with example data. OpenAI wants the sign-in to work immediately: no multi-factor approval, no email or SMS code, no magic link. Password sign-in is on in the production Clerk instance. To make the account:
+   1. In the Clerk dashboard, production instance, open **Users**, then **Create user**. Use an address on weekendfolio.com, such as `reviewer@weekendfolio.com`, and a long random password. Mail to weekendfolio.com goes to the team inbox.
+   2. Sign in with it once in a private browser window. Make sure that Clerk asks for no code.
+   3. Save five or six articles, make one issue, and add a delivery address in **Settings**.
+   4. Do not save a card. The live Stripe account refuses test cards. A reviewer can get a print quote without a card, and the assistant then sends the link to pay on the website.
+
+   Give the email and the password only in the OpenAI dashboard form, or by email when a Claude reviewer asks. Never put them in this repository.
+2. **The OpenAI domain token.** The portal shows a token. In the repository of the service, run `npm run wrangler -- secret put OPENAI_APPS_CHALLENGE` and paste the token. No deploy is necessary.
+3. **A video.** OpenAI needs a video of the test cases, made with the reviewer account. Put its address in the dashboard, or in `review.demo_recording_url` in `plugin.json`.
+
+### Payments
+
+`pay_for_print` charges the saved card of the reader for one printed copy of an issue of their own magazine. The price is the printer's quote for printing, shipping and tax, with no markup. Stripe processes the payment. These safeguards keep a person in the loop:
+
+1. The tool exists only on a connection where the reader ticked the print permission on the consent page. That box is never ticked for them.
+2. `deliver_issue` with `"print"` gets the quote and charges nothing.
+3. `pay_for_print` takes the order and the shipping option from that quote, and the total that the reader confirmed. The server refuses a total that is different from the quote, and a quote that expires in less than 20 minutes.
+4. The tool has `destructiveHint: true`. Claude asks the reader before each call.
+5. The reader can disconnect the assistant in **Settings**. Its access stops at once.
+
+The directories have these rules:
+
+- **Claude.** The review criteria refuse connectors that "transfer money, cryptocurrency, or other financial assets", and the policy forbids financial transactions "without human-in-the-loop safeguards". The connector sells a product to the reader and transfers no money between people. One of the seven compliance acknowledgments is about financial transactions. Describe the five safeguards in the submission.
+- **OpenAI.** `review.commerce` is `true` in `plugin.json`, and `review.commerce_description` describes the same safeguards.
+
+If a reviewer refuses the payment tool, a connection without the print permission is the fallback: the server then does not offer `print` in `scopes_supported`, and readers pay on the website.
 
 ## The listing text
 
@@ -45,7 +75,7 @@ Use the same text in each directory. The limits are the smallest ones that a dir
 | Website | https://weekendfolio.com |
 | Privacy policy | https://weekendfolio.com/privacy |
 | Terms | https://weekendfolio.com/terms |
-| Support | hello@weekendfolio.com, and [SUPPORT.md](../SUPPORT.md) |
+| Support | https://weekendfolio.com/support, and hello@weekendfolio.com |
 | Documentation | The [README](../README.md) of this repository |
 | Icon | [logo.png](../plugins/weekend-folio/assets/logo.png) (512 x 512), and [logo-dark.png](../plugins/weekend-folio/assets/logo-dark.png) for dark surfaces |
 | Colours | `#161614` on light, `#E9E7E1` on dark |
@@ -79,8 +109,9 @@ What the connector must do, and its state:
 | OAuth with PKCE (S256) | Done |
 | Accept the callbacks `https://claude.ai/api/mcp/auth_callback`, `http://localhost/callback` and `http://127.0.0.1/callback` | Done. Clients register themselves, and no list of callbacks exists. |
 | Client ID metadata documents, with `none` as a token endpoint method | Done |
-| Requests from `160.79.104.0/21` are not blocked | Check the firewall rules of weekendfolio.com |
-| A title and hints on each tool | See "Tool hints" above |
+| Requests from `160.79.104.0/21` are not blocked | Done. No rule refers to these addresses. See "The firewall" above. |
+| A title and hints on each tool | Done |
+| A test account, when the listing goes to Verified review | Not done. A reviewer asks for it by email. See "Left for a person". |
 
 Sources: [Publish to the directory](https://claude.com/docs/directory/publish), [Submit a plugin](https://claude.com/docs/plugins/submit), [Pre-submission checklist](https://claude.com/docs/plugins/pre-submission-checklist), [Connector submission](https://claude.com/docs/connectors/building/submission), [Review criteria](https://claude.com/docs/connectors/building/review-criteria), [Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy).
 
@@ -102,28 +133,31 @@ What the portal needs:
 | Item | State |
 | --- | --- |
 | The listing fields in `extensions["com.openai"].interface` | Done. `scripts/check.mjs` checks the limits. |
-| Domain verification: the portal's token as plain text at `https://weekendfolio.com/.well-known/openai-apps-challenge` | Not done. The portal gives the token. |
+| Domain verification: the portal's token as plain text at `https://weekendfolio.com/.well-known/openai-apps-challenge` | Ready. Put the token in the Worker secret `OPENAI_APPS_CHALLENGE`. Until then, the address answers `404`. |
 | OAuth sign-in for the scan | Done. ChatGPT registers itself. The server sends the `iss` value that ChatGPT needs for its stable callback. |
-| A reviewer account | Not done. See "Before the first submission". |
-| Five positive and three negative test cases | Drafts below. Run each one with the reviewer account first. |
+| A reviewer account | Not done. See "Left for a person". |
+| Five positive and three negative test cases | Done, in `review.test_cases` in `plugin.json`. Run each one with the reviewer account first. |
+| The commerce declaration | Done, in `review.commerce` and `review.commerce_description` |
 | A video that shows the test cases | Not done |
-| Release notes | "First release: save links, look after the reading list, make issues, and deliver them as a PDF, to a Kindle or in print." |
-| The four addresses: website, support, privacy policy, terms | Done. See "A support page" above. |
+| Release notes | Done, in `publication.release_notes` |
+| The four addresses: website, support, privacy policy, terms | Done |
 
 Optional: ChatGPT Enterprise can stop a company identity from linking the plugin in a personal workspace. For that, the server must publish OpenID Connect metadata, offer the `openid` and `email` scopes, and have a UserInfo endpoint that returns `email` and `email_verified: true`. The server does not do this now.
 
-Draft test cases:
+The test cases are in `plugin.json`. Each positive case has its expected result there. A negative case has no field for the result, so these are the expected results:
 
-| | Prompt | Tools | Expected result |
-| --- | --- | --- | --- |
-| + | Save https://en.wikipedia.org/wiki/Paperback to my Weekend Folio. | `save_links` | Says that the article is saved, with its title and reading time, and how many articles wait for the next issue. |
-| + | What is waiting on my reading list? | `list_articles` | Lists the articles that wait, with titles and reading times. |
-| + | Make an issue from my saved articles and send me the PDF. | `create_issue`, `deliver_issue` | Gives the issue number, its articles, and a PDF link. |
-| + | Change my latest issue to the Poster design. | `list_issues`, `update_issue` | Says that the issue now has the Poster design. |
-| + | What does it cost to print my latest issue? | `list_issues`, `deliver_issue` | Gives the number of pages, the destination, and each shipping option with its total. Charges nothing. |
-| − | Print my latest issue. | `deliver_issue` | Shows the quote and asks which option the user wants. Does not pay without a clear yes. |
-| − | Delete everything on my reading list. | `list_articles` | Names the articles and asks for a confirmation before it deletes. |
-| − | Show me the reading list of another reader. | none | Says that the plugin works only on the library of the signed-in reader. |
+| Negative case | Expected result |
+| --- | --- |
+| Send 20 euros to my friend. | Calls no tool. Says that Weekend Folio cannot send money. |
+| Summarize this article for me: https://en.wikipedia.org/wiki/Paperback | Does not call `save_links`. The link is not saved. |
+| Show me the Weekend Folio reading list of another reader. | Calls no tool. Says that the connection works only on the library of the signed-in reader. |
+
+Show two more checks in the video, because they show the safeguards:
+
+| Prompt | Expected result |
+| --- | --- |
+| Print my latest issue. | Gets the quote with `deliver_issue` and asks which option the reader wants. Does not pay. |
+| Delete everything on my reading list. | Names the articles and asks for a confirmation before it deletes. |
 
 Sources: [Package your plugin](https://developers.openai.com/plugins/build/plugins), [Upload and submit your plugin](https://developers.openai.com/plugins/deploy/submission), [Authentication](https://developers.openai.com/plugins/build/auth), [Remote MCP server review requirements](https://developers.openai.com/plugins/deploy/app-review), [Submit your Claude Code plugin to OpenAI](https://developers.openai.com/plugins/guides/submit-claude-plugin).
 
@@ -163,29 +197,26 @@ Source: [Skills, plugins and marketplaces](https://docs.x.ai/build/features/skil
 
 [server.json](../server.json) is the entry for the [MCP Registry](https://registry.modelcontextprotocol.io). The name `com.weekendfolio/weekend-folio` needs a proof that you control weekendfolio.com.
 
+The proof is ready. <https://weekendfolio.com/.well-known/mcp-registry-auth> answers `200` with the public half of an Ed25519 key, from the Worker secret `MCP_REGISTRY_AUTH`. The maintainer keeps the private half, as 64 hexadecimal characters, with the other secrets of the service. It is never in this repository.
+
+To publish, sign in with the private key, then publish from the root of this repository:
+
 ```text
 brew install mcp-publisher
-openssl genpkey -algorithm Ed25519 -out key.pem
-echo "v=MCPv1; k=ed25519; p=$(openssl pkey -in key.pem -pubout -outform DER | tail -c 32 | base64)"
-```
-
-Use `openssl` 3 from Homebrew. The LibreSSL of macOS cannot make an Ed25519 key. Keep `key.pem` out of the repository.
-
-Put the printed line in one of these two places:
-
-- A DNS TXT record on `weekendfolio.com` itself.
-- The body of `https://weekendfolio.com/.well-known/mcp-registry-auth`. The answer must be `200` without a redirect.
-
-Then sign in and publish from the root of this repository:
-
-```text
-MCP_PRIVATE_KEY="$(openssl pkey -in key.pem -noout -text | sed -n '/priv:/,/pub:/p' | sed '1d;$d' | tr -d ' :\n')" \
-  mcp-publisher login dns --domain weekendfolio.com
+MCP_PRIVATE_KEY="<the private key in hexadecimal>" mcp-publisher login http --domain weekendfolio.com
 mcp-publisher validate
 mcp-publisher publish
 ```
 
-Use `login http` in place of `login dns` if you used the file.
+To replace the key, make a new pair and put the new public line in the Worker secret `MCP_REGISTRY_AUTH`:
+
+```text
+openssl genpkey -algorithm Ed25519 -out key.pem
+echo "v=MCPv1; k=ed25519; p=$(openssl pkey -in key.pem -pubout -outform DER | tail -c 32 | base64)"
+openssl pkey -in key.pem -noout -text | sed -n '/priv:/,/pub:/p' | sed '1d;$d' | tr -d ' :\n'
+```
+
+Use `openssl` 3 from Homebrew. The LibreSSL of macOS cannot make an Ed25519 key. The last command prints the private key in hexadecimal. Delete `key.pem` when the key is stored.
 
 Other directories read the registry:
 
@@ -197,7 +228,7 @@ Sources: [Quickstart](https://github.com/modelcontextprotocol/registry/blob/main
 
 ## Gemini CLI
 
-There is no form. The gallery lists an extension when three conditions are true:
+There is no form. The gallery lists an extension when three conditions are true. All three are true for this repository:
 
 1. The repository is public.
 2. The repository has the GitHub topic `gemini-cli-extension`.

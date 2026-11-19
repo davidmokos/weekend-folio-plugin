@@ -2,7 +2,7 @@
 
 ## Your account, your library, an issue or an order
 
-Write to [hello@weekendfolio.com](mailto:hello@weekendfolio.com). This is the correct address for these subjects:
+The [support page](https://weekendfolio.com/support) on weekendfolio.com answers the usual questions. For anything else, write to [hello@weekendfolio.com](mailto:hello@weekendfolio.com). This is the correct address for these subjects:
 
 - You cannot sign in, or the connection to your assistant does not work.
 - A link was not saved, or an article has an error.

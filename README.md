@@ -16,6 +16,7 @@
   <img src="https://img.shields.io/badge/connector-MCP_with_OAuth-161614?style=flat-square&labelColor=d9d6ce" alt="An MCP connector with OAuth" />
   <img src="https://img.shields.io/badge/skills-3-161614?style=flat-square&labelColor=d9d6ce" alt="Three skills" />
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-161614?style=flat-square&labelColor=d9d6ce" alt="MIT license" /></a>
+  <a href="https://github.com/davidmokos/weekend-folio-plugin/actions/workflows/check.yml"><img src="https://img.shields.io/github/actions/workflow/status/davidmokos/weekend-folio-plugin/check.yml?branch=main&style=flat-square&label=check&labelColor=d9d6ce&color=161614" alt="The check of the manifests and skills" /></a>
 </p>
 
 ## What it is
@@ -246,7 +247,7 @@ node scripts/check.mjs
 
 ## Support
 
-For your account, your issues or an order, write to [hello@weekendfolio.com](mailto:hello@weekendfolio.com). For a problem with the plugin, [open an issue](https://github.com/davidmokos/weekend-folio-plugin/issues). [SUPPORT.md](SUPPORT.md) has the details. To report a security problem, see [SECURITY.md](SECURITY.md).
+For your account, your issues or an order, write to [hello@weekendfolio.com](mailto:hello@weekendfolio.com). The [support page](https://weekendfolio.com/support) answers the usual questions. For a problem with the plugin, [open an issue](https://github.com/davidmokos/weekend-folio-plugin/issues). [SUPPORT.md](SUPPORT.md) has the details. To report a security problem, see [SECURITY.md](SECURITY.md).
 
 ## License
 

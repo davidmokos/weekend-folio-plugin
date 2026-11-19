@@ -41,7 +41,7 @@ On that page you can also tick the permission to order printed copies with your 
 
 - The full guide, with the steps for each assistant: [github.com/davidmokos/weekend-folio-plugin](https://github.com/davidmokos/weekend-folio-plugin#readme)
 - [Privacy policy](https://weekendfolio.com/privacy) and [terms](https://weekendfolio.com/terms)
-- Help: [hello@weekendfolio.com](mailto:hello@weekendfolio.com)
+- Help: the [support page](https://weekendfolio.com/support), or [hello@weekendfolio.com](mailto:hello@weekendfolio.com)
 
 ## License
 
