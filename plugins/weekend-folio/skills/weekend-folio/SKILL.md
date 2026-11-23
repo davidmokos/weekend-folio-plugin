@@ -10,7 +10,7 @@ Weekend Folio turns the articles a reader saves into their own magazine. The rea
 
 This skill covers the library: how to save links and how to look after the reading list. Two more skills cover the rest:
 
-- `weekend-folio-issue`: make an issue and deliver it as a PDF or to a Kindle.
+- `weekend-folio-issue`: deliver the next issue as a PDF or to a Kindle, and change an issue.
 - `weekend-folio-print`: order a printed copy.
 
 ## Before you start
@@ -25,7 +25,8 @@ This skill covers the library: how to save links and how to look after the readi
 | Word | Meaning |
 | --- | --- |
 | Article | A saved link. Weekend Folio reads it and cleans it up for print. |
-| Up next | Articles that are saved and not yet in an issue. The next issue contains them. |
+| Up next | Articles that are saved and not yet in a finished issue. They are in the next issue, or they wait for the issue after it. |
+| Next issue | The issue that collects the saved articles. It is always there, and Weekend Folio prepares it in the background. Nobody makes it. A delivery finishes it. |
 | Issue | One number of the reader's magazine. |
 | Design | The look of an issue: `folio`, `feature`, `poster`, `margin`, `still` or `grid`. |
 

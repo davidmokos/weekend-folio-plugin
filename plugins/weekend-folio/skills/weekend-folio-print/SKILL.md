@@ -22,11 +22,13 @@ This skill moves money. Obey the rules exactly.
 
 ## 1. Find the issue
 
-Call `list_issues`, or `get_issue` when you know the issue. If it is not clear which issue the user wants, ask. The `print_status` of each issue in `list_issues` shows if it has a print order.
+Call `list_issues`, or `get_issue` when you know the issue. `list_issues` gives the next issue in `next_issue` (the articles that wait) and the finished issues in `finished_issues`. If it is not clear which issue the user wants, ask. The `print_status` of each finished issue shows if it has a print order.
 
 ## 2. Get the quote
 
-Call `deliver_issue` with the `issue_id` and `destination: "print"`. Weekend Folio typesets the issue on A4 first. This can take a minute. Tell the user that you are getting the quote.
+Call `deliver_issue` with the `issue_id` and `destination: "print"`. For the next issue, leave out `issue_id`. Weekend Folio typesets the issue on A4 first. This can take a minute. Tell the user that you are getting the quote.
+
+A quote for the next issue finishes it: it keeps its number, and the articles that the reader saves after that start the next one. The result then has `finished`. Tell the user the number of the issue.
 
 | Result | What you do |
 | --- | --- |

@@ -27,13 +27,13 @@
       "interface": {
         "displayName": "Weekend Folio",
         "shortDescription": "Your saved links as a magazine",
-        "longDescription": "Weekend Folio turns the articles you save into your own magazine. Give the assistant links to save, ask what is on your reading list, and let it make an issue from the articles that wait. Get the issue as a PDF link, send it to your Kindle, or get a live quote for a printed copy that comes by post. A printed copy has no subscription: you pay for each one separately, at the printer's cost for printing, shipping and tax. The assistant can pay with your saved card only if you gave the connection that permission when you connected it, and only after you confirm one shipping option and its total. Without that permission, it sends you a link and you pay on the website. You need a Weekend Folio account. The plugin works only on the library of the reader who signed in.",
+        "longDescription": "Weekend Folio turns the articles you save into your own magazine. Give the assistant links to save, and ask what is on your reading list. Your next issue makes itself from the articles that wait. Get it as a PDF link, send it to your Kindle, or get a live quote for a printed copy that comes by post. A printed copy has no subscription: you pay for each one separately, at the printer's cost for printing, shipping and tax. The assistant can pay with your saved card only if you gave the connection that permission when you connected it, and only after you confirm one shipping option and its total. Without that permission, it sends you a link and you pay on the website. You need a Weekend Folio account. The plugin works only on the library of the reader who signed in.",
         "developerName": "Weekend Folio",
         "category": "Productivity",
         "capabilities": [
           "Save links",
           "Read the reading list",
-          "Make and change issues",
+          "Read and change issues",
           "Send an issue as a PDF or to a Kindle",
           "Quote and order printed copies"
         ],
@@ -43,7 +43,7 @@
         "termsOfServiceURL": "https://weekendfolio.com/terms",
         "defaultPrompt": [
           "What is waiting on my Weekend Folio reading list?",
-          "Make an issue from my saved articles and send me the PDF.",
+          "Send me the PDF of my next Weekend Folio issue.",
           "How much does it cost to print my latest issue?"
         ],
         "brandColor": "#161614",
@@ -66,13 +66,13 @@
               "description": "Show the reading list",
               "prompt": "What is waiting on my Weekend Folio reading list?",
               "tools_triggered": "list_articles",
-              "expected_behavior": "Lists the articles that wait for the next issue, with their titles and reading times."
+              "expected_behavior": "Lists the articles that wait, with their titles and reading times."
             },
             {
-              "description": "Make an issue and get its PDF",
-              "prompt": "Make a Weekend Folio issue from my saved articles and send me the PDF.",
-              "tools_triggered": "create_issue, deliver_issue",
-              "expected_behavior": "Makes the issue. Gives its number, its articles and a PDF link."
+              "description": "Get the PDF of the next issue",
+              "prompt": "Send me the PDF of my next Weekend Folio issue.",
+              "tools_triggered": "deliver_issue",
+              "expected_behavior": "Gives a PDF link and the number of the issue. Says that the articles saved from now on go into the issue after it."
             },
             {
               "description": "Change the design of an issue",

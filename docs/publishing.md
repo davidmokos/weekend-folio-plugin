@@ -83,7 +83,7 @@ Use the same text in each directory. The limits are the smallest ones that a dir
 Example prompts:
 
 1. What is waiting on my Weekend Folio reading list?
-2. Make an issue from my saved articles and send me the PDF.
+2. Send me the PDF of my next Weekend Folio issue.
 3. How much does it cost to print my latest issue?
 
 ## Claude

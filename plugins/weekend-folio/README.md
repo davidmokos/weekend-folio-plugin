@@ -13,7 +13,7 @@ Save articles from any conversation and turn them into your own magazine: a PDF,
 | Skill | Use |
 | --- | --- |
 | `weekend-folio` | Save links and look after the reading list |
-| `weekend-folio-issue` | Make an issue, change it, and get it as a PDF or on a Kindle |
+| `weekend-folio-issue` | Get the next issue as a PDF or on a Kindle, and change an issue |
 | `weekend-folio-print` | Get a print quote and order a printed copy, with a confirmation before each payment |
 
 ## Set-up

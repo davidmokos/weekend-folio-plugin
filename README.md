@@ -24,7 +24,7 @@
 [Weekend Folio](https://weekendfolio.com) turns the articles you save into a magazine with your name on it. This repository is the plugin that connects it to an AI assistant. The plugin has two parts:
 
 - **A connector.** One MCP server at `https://weekendfolio.com/mcp`. It gives the assistant 13 tools for your reading list, your issues and your settings. You sign in with your Weekend Folio account. There is no API key.
-- **Three skills.** Short instructions that teach the assistant the work: how to save links, how to make an issue, and how to order a printed copy without a mistake.
+- **Three skills.** Short instructions that teach the assistant the work: how to save links, how to deliver and change an issue, and how to order a printed copy without a mistake.
 
 A conversation can go like this:
 
@@ -32,15 +32,17 @@ A conversation can go like this:
 >
 > **Assistant:** Saved. 3 articles, 41 minutes of reading. 9 articles wait for your next issue.
 >
-> **You:** Make the issue in the Poster design and send it to my Kindle.
+> **You:** Put it in the Poster design and send it to my Kindle.
 >
-> **Assistant:** Issue No. 13 is ready: 9 articles, about 2 hours of reading. It is on its way to your Kindle.
+> **Assistant:** Issue No. 13 is on its way to your Kindle: 9 articles in three sections, about 2 hours of reading. The articles you save now go into No. 14.
 >
 > **You:** What does a printed copy cost?
 >
 > **Assistant:** 52 pages, sent to Prague. There are two shipping options, each with its total. Which one do you want?
 
 The numbers above are an example. The assistant takes the real ones from your library.
+
+You do not make an issue. The next issue is always there: the articles you save go into it, and Weekend Folio prepares its sections, its cover and its pages in the background. When you get it as a PDF, on your Kindle or in print, it is finished, and the articles you save after that start the next one.
 
 ## Install
 
@@ -155,8 +157,8 @@ npx skills@latest add davidmokos/weekend-folio-plugin
 
 - "Save this for the weekend: *(a link)*"
 - "What is waiting on my reading list?"
-- "Make an issue from the five longest articles and call it The Long Ones."
-- "Send my latest issue to my Kindle."
+- "Send my next issue to my Kindle."
+- "Make a separate issue from the five longest articles and call it The Long Ones."
 - "What does it cost to print issue 12?"
 
 ## Sign-in and permissions
@@ -182,11 +184,11 @@ You can disconnect an assistant at any time in **Settings** on weekendfolio.com.
 | `list_articles` | Lists your articles: up next, all, printed, failed or archived | No |
 | `get_article` | Gives the details of one article and the start of its text | No |
 | `update_articles` | Archives, restores or deletes articles | Yes |
-| `create_issue` | Makes a new issue from the articles that wait, or from the ones you name | Yes |
-| `list_issues` | Lists your issues | No |
-| `get_issue` | Gives the articles of one issue, in order | No |
+| `create_issue` | Makes a separate issue from the articles you name. Rarely necessary: the next issue makes itself | Yes |
+| `list_issues` | Lists your next issue and your finished issues | No |
+| `get_issue` | Gives the articles of one issue, in order, with their sections | No |
 | `update_issue` | Changes the title, the design or the articles of an issue | Yes |
-| `deliver_issue` | Gives a PDF link, sends the issue to your Kindle, or gets a print quote | Yes |
+| `deliver_issue` | Gives a PDF link, sends the issue to your Kindle, or gets a print quote. A delivery finishes the next issue | Yes |
 | `pay_for_print` | Pays for a printed copy with your saved card. Only with the print permission. | Yes |
 | `get_account` | Gives your settings | No |
 | `kindle_setup` | Gives the steps to connect a Kindle | No |
@@ -197,7 +199,7 @@ You can disconnect an assistant at any time in **Settings** on weekendfolio.com.
 | Skill | Use |
 | --- | --- |
 | [`weekend-folio`](plugins/weekend-folio/skills/weekend-folio/SKILL.md) | Save links and look after the reading list |
-| [`weekend-folio-issue`](plugins/weekend-folio/skills/weekend-folio-issue/SKILL.md) | Make an issue, change it, and get it as a PDF or on a Kindle |
+| [`weekend-folio-issue`](plugins/weekend-folio/skills/weekend-folio-issue/SKILL.md) | Get the next issue as a PDF or on a Kindle, and change an issue |
 | [`weekend-folio-print`](plugins/weekend-folio/skills/weekend-folio-print/SKILL.md) | Get a print quote and order a printed copy, with a confirmation before each payment |
 
 An issue comes in one of six designs: Folio, Feature, Poster, Margin, Still and Grid. The banner above shows the covers of three of them.

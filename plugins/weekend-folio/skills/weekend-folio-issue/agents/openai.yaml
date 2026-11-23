@@ -1,7 +1,7 @@
 interface:
   display_name: "Weekend Folio issue"
-  short_description: "Make an issue and get it as a PDF or on a Kindle"
-  default_prompt: "Use $weekend-folio-issue to make an issue from my saved articles and send me the PDF."
+  short_description: "Get your next issue as a PDF or on a Kindle"
+  default_prompt: "Use $weekend-folio-issue to send me the PDF of my next issue."
 
 dependencies:
   tools:
